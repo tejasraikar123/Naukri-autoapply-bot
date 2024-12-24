@@ -18,7 +18,7 @@ applied_list={
 
 
 try:
-    profile = webdriver.FirefoxProfile("") #Add your Root directory path
+    profile = webdriver.FirefoxProfile("C:\Users\Tejas Raikar\AppData\Roaming\Mozilla\Firefox\Profiles\g2ip8typ.default-esr") #Add your Root directory path
     driver = webdriver.Firefox(profile)
 except Exception as e:
     print('Webdriver exception')

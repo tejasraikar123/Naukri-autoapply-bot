@@ -41,8 +41,8 @@ for k in keywords:
         print(url)
         
         try:
-            # Adjusted to wait for the job list container
-            wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'list')))
+            # Wait for job listings to be present
+            wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'jobTuple')))
             soup = BeautifulSoup(driver.page_source, 'html.parser')
             job_elems = soup.find_all('article', class_='jobTuple bgWhite br4 mb-8')
             

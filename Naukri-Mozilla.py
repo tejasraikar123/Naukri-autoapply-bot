@@ -1,6 +1,9 @@
 import pandas as pd
 import time
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.firefox.options import Options
 from bs4 import BeautifulSoup
 
@@ -25,7 +28,7 @@ try:
 except Exception as e:
     print('Webdriver exception:', e)
 
-time.sleep(10)
+wait = WebDriverWait(driver, 20)
 
 for k in keywords:
     for i in range(2):
@@ -36,14 +39,17 @@ for k in keywords:
         
         driver.get(url)
         print(url)
-        time.sleep(3)
         
-        soup = BeautifulSoup(driver.page_source, 'html5lib')
-        results = soup.find(class_='list')
-        job_elems = results.find_all('article', class_='jobTuple bgWhite br4 mb-8')
-        
-        for job_elem in job_elems:
-            joblink.append(job_elem.find('a', class_='title fw500 ellipsis').get('href'))
+        try:
+            # Adjusted to wait for the job list container
+            wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'jobTuple')))
+            soup = BeautifulSoup(driver.page_source, 'html5lib')
+            results = soup.find_all('article', class_='jobTuple bgWhite br4 mb-8')
+            
+            for job_elem in results:
+                joblink.append(job_elem.find('a', class_='title fw500 ellipsis').get('href'))
+        except Exception as e:
+            print("Error finding job elements:", e)
 
 for i in joblink:
     time.sleep(3)
@@ -51,8 +57,7 @@ for i in joblink:
     
     if applied <= maxcount:
         try:
-            time.sleep(3)
-            driver.find_element_by_xpath("//*[text()='Apply']").click()
+            wait.until(EC.element_to_be_clickable((By.XPATH, "//*[text()='Apply']"))).click()
             time.sleep(2)
             applied += 1
             applied_list['passed'].append(i)

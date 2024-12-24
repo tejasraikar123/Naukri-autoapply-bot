@@ -7,11 +7,11 @@ from selenium.webdriver.common.keys import Keys
 
 
 
-firstname=''                        #Add your LastName
-lastname=''                         #Add your FirstName
+firstname='Tejas'                        #Add your LastName
+lastname='Raikar'                         #Add your FirstName
 joblink=[]                          #Initialized list to store links
 maxcount=100                         #Max daily apply quota for Naukri
-keywords=['']                    #Add you list of role you want to apply comma seperated
+keywords=['Senior network engineer']                    #Add you list of role you want to apply comma seperated
 location = ''                       #Add your location/city name for within India or remote
 applied =0                          #Count of jobs applied sucessfully
 failed = 0                          #Count of Jobs failed
@@ -19,7 +19,7 @@ applied_list={
     'passed':[],
     'failed':[]
 }                                   #Saved list of applied and failed job links for manual review
-edgedriverfile = r'''filepath'''  #Please add your filepath here
+edgedriverfile = r'''E:\Tejas Created Downloads Folder\edgedriver_win64'''  #Please add your filepath here
 yournaukriemail = ''
 yournaukripass = ''
 try:

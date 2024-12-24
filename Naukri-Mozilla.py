@@ -33,7 +33,7 @@ wait = WebDriverWait(driver, 20)
 for k in keywords:
     for i in range(2):
         if location == '':
-            url = f"https://www.naukri.com/{k.lower().replace(' ', '-')}-{i+1}"
+            url = f"https://www.naukri.com/{k.lower().replace(' ', '-')}-jobs-{i+1}"
         else:
             url = f"https://www.naukri.com/{k.lower().replace(' ', '-')}-jobs-in-{location.lower().replace(' ', '-')}-{i+1}"
         
@@ -42,11 +42,11 @@ for k in keywords:
         
         try:
             # Adjusted to wait for the job list container
-            wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'jobTuple')))
-            soup = BeautifulSoup(driver.page_source, 'html5lib')
-            results = soup.find_all('article', class_='jobTuple bgWhite br4 mb-8')
+            wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'list')))
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+            job_elems = soup.find_all('article', class_='jobTuple bgWhite br4 mb-8')
             
-            for job_elem in results:
+            for job_elem in job_elems:
                 joblink.append(job_elem.find('a', class_='title fw500 ellipsis').get('href'))
         except Exception as e:
             print("Error finding job elements:", e)
@@ -69,16 +69,16 @@ for i in joblink:
             print(e, "Failed", failed)
         
         try:
-            if driver.find_element_by_xpath("//*[text()='Your daily quota has been expired.']"):
+            if driver.find_element(By.XPATH, "//*[text()='Your daily quota has been expired.']"):
                 print('MAX Limit reached. Closing browser.')
                 driver.close()
                 break
-            if driver.find_element_by_xpath("//*[text()=' 1. First Name']"):
-                driver.find_element_by_xpath("//input[@id='CUSTOM-FIRSTNAME']").send_keys(firstname)
-            if driver.find_element_by_xpath("//*[text()=' 2. Last Name']"):
-                driver.find_element_by_xpath("//input[@id='CUSTOM-LASTNAME']").send_keys(lastname)
-            if driver.find_element_by_xpath("//*[text()='Submit and Apply']"):
-                driver.find_element_by_xpath("//*[text()='Submit and Apply']").click()
+            if driver.find_element(By.XPATH, "//*[text()=' 1. First Name']"):
+                driver.find_element(By.XPATH, "//input[@id='CUSTOM-FIRSTNAME']").send_keys(firstname)
+            if driver.find_element(By.XPATH, "//*[text()=' 2. Last Name']"):
+                driver.find_element(By.XPATH, "//input[@id='CUSTOM-LASTNAME']").send_keys(lastname)
+            if driver.find_element(By.XPATH, "//*[text()='Submit and Apply']"):
+                driver.find_element(By.XPATH, "//*[text()='Submit and Apply']").click()
         except:
             pass
             

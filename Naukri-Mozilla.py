@@ -1,24 +1,27 @@
 import pandas as pd
 import time
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 from bs4 import BeautifulSoup
 
-firstname = 'Tejas'   # Add your FirstName
-lastname = 'Raikar'   # Add your LastName
-joblink = []          # Initialized list to store links
-maxcount = 50         # Max daily apply quota for Naukri
+firstname = 'Tejas'  # Add your FirstName
+lastname = 'Raikar'  # Add your LastName
+joblink = []         # Initialized list to store links
+maxcount = 50        # Max daily apply quota for Naukri
 keywords = ['Network Engineer', 'Technical specialist']  # List of roles you want to apply for
-location = ''         # Add your location/city name for within India or remote
-applied = 0           # Count of jobs applied successfully
-failed = 0            # Count of jobs failed
+location = ''        # Add your location/city name for within India or remote
+applied = 0          # Count of jobs applied successfully
+failed = 0           # Count of jobs failed
 applied_list = {
     'passed': [],
     'failed': []
-}                     # Saved list of applied and failed job links for manual review
+}                    # Saved list of applied and failed job links for manual review
 
 try:
-    profile = webdriver.FirefoxProfile(r"C:\Users\Tejas Raikar\AppData\Roaming\Mozilla\Firefox\Profiles\g2ip8typ.default-esr")  # Add your Root directory path
-    driver = webdriver.Firefox(firefox_profile=profile)
+    options = Options()
+    profile_path = r"C:\Users\Tejas Raikar\AppData\Roaming\Mozilla\Firefox\Profiles\g2ip8typ.default-esr"
+    options.set_preference("profile", profile_path)
+    driver = webdriver.Firefox(options=options)
 except Exception as e:
     print('Webdriver exception:', e)
 
